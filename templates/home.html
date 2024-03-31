@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Bienvenue !</h1>
+    <section>
+        <a href="{% url 'password_change' %}" class="buttons">Changer mot de passe</a>
+        {% if user.is_superuser %}
+            <a href="{% url 'admin:index' %}" class="buttons">Page administration</a>
+        {% endif %}
+    </section>
+{% endblock %}
