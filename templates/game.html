@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-    <section>
-        {{ word_length }}
-    </section>
+{{ word }}
+<form id="guess-form">
+    {% csrf_token %}
+    <input type="text" name="guess" id="guess-input" maxlength="{{ word_length }}">
+    <button type="submit">Guess</button>
+</form>
+<div id="grid-container"></div>
+<script src="{% static 'js/game_manager.js' %}"></script>
 {% endblock %}

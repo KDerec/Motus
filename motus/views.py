@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import WordToGuess
@@ -9,6 +10,7 @@ def home(request):
     return render(request, "home.html")
 
 
+@login_required
 def start_game(request):
     if request.method == "POST":
         difficulty = request.POST.get("difficulty")
@@ -24,3 +26,14 @@ def start_game(request):
         return render(request, "game.html", {"word_length": difficulty, "word": word})
     else:
         return redirect("motus:home")
+
+
+@login_required
+def handle_guess(request):
+    if request.method == "POST":
+        request.POST.get("guess")
+        feedback_data = ["red", "yellow", "blue"]
+
+        return JsonResponse({"feedback": feedback_data})
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)

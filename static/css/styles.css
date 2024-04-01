@@ -9,3 +9,19 @@ html {
     font-size: 100%;
     font-family: 'Inter', sans-serif;
 }
+
+#grid-container {
+    color: white;
+}
+
+.red {
+    background-color: red;
+}
+
+.yellow {
+    background-color: orange;
+}
+
+.blue{
+    background-color: blue;
+}
