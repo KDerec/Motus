@@ -1,6 +1,5 @@
 import requests
-
-# from django.db import models
+from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
@@ -22,3 +21,10 @@ class WordGenerator:
 
     def format_response(self, response):
         return response.replace("[", "").replace("]", "").replace('"', "")
+
+
+class WordToGuess(models.Model):
+    word_text = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.word_text}"
