@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import WordToGuess
+from faker import Faker
 
 
 @login_required
@@ -13,7 +14,10 @@ def start_game(request):
         difficulty = request.POST.get("difficulty")
         if difficulty is None or difficulty == "" or int(difficulty) < 3:
             return redirect("motus:home")
-        word = "test"
+        fake = Faker()
+        word = ""
+        while len(word) != int(difficulty):
+            word = fake.word()
         word = WordToGuess(word_text=word)
         word.save()
         return render(request, "game.html", {"word_length": difficulty, "word": word})
