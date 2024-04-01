@@ -7,5 +7,6 @@
         {% if user.is_superuser %}
             <a href="{% url 'admin:index' %}" class="buttons">Page administration</a>
         {% endif %}
+        <div>{{ new_word }}</div>
     </section>
 {% endblock %}
