@@ -12,7 +12,8 @@ def home(request):
 def start_game(request):
     if request.method == "POST":
         difficulty = request.POST.get("difficulty")
-        if difficulty is None or difficulty == "" or int(difficulty) < 3:
+        difficulty = int(difficulty)
+        if difficulty is None or difficulty == "" or difficulty < 3 or difficulty > 9:
             return redirect("motus:home")
         fake = Faker()
         word = ""
