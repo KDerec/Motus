@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -31,9 +32,32 @@ def start_game(request):
 @login_required
 def handle_guess(request):
     if request.method == "POST":
-        request.POST.get("guess")
+        data_dict = decode_json_request_body(request.body)
+        guess = data_dict["guess"]
+        word_id = data_dict["word_id"]
+        word = WordToGuess.objects.get(pk=word_id)
+        print(word)
+        print(guess)
         feedback_data = ["red", "yellow", "blue"]
 
         return JsonResponse({"feedback": feedback_data})
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+def decode_json_request_body(body_request: bytes) -> dict:
+    """Decodes a request body and returns it as a Python dictionary.
+
+    Args:
+        body_request (bytes): The raw request body as a byte string.
+
+    Returns:
+        dict: The parsed JSON data as a Python dictionary.
+
+    Raises:
+        ValueError: If the request body cannot be decoded as UTF-8.
+        json.JSONDecodeError: If the decoded request body is not valid JSON.
+    """
+
+    data_string = body_request.decode("utf-8")
+    return json.loads(data_string)

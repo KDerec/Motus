@@ -1,6 +1,7 @@
 const guessForm = document.getElementById('guess-form');
 const guessInput = document.getElementById('guess-input');
 const gridContainer = document.getElementById('grid-container');
+const wordId = document.getElementById('word-id');
 
 function getCookie(name) {
     let cookieValue = null;
@@ -19,17 +20,18 @@ function getCookie(name) {
 }
 const csrftoken = getCookie('csrftoken');
 
-
 guessForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const guess = guessInput.value.toUpperCase();
   guessInput.value = ''; // Clear guess input after submit
 
+  const word_id = wordId.value;
+
   // Make a fetch request to the Django view for guess handling
   const response = await fetch('handle-guess', {
     method: 'POST',
-    body: JSON.stringify({ guess }),
+    body: JSON.stringify({ guess, word_id }),
     headers: { 'Content-Type': 'application/json', "X-CSRFToken": csrftoken }
   });
 
