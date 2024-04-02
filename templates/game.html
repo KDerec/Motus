@@ -7,6 +7,13 @@
     <input type="hidden" name="word-id" id="word-id" value="{{ word.pk }}">
     <button type="submit">Envoyer</button>
 </form>
-<div id="grid-container"></div>
+<table id="grid-container">
+    <tr>
+        <td class="red">{{ first_letter|upper }}</td>
+        {% for i in list_length %}
+        <td class="blue">?</td>
+        {% endfor %}
+    </tr>
+</table>
 <script src="{% static 'js/game_manager.js' %}"></script>
 {% endblock %}

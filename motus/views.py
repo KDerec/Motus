@@ -16,15 +16,22 @@ def start_game(request):
     if request.method == "POST":
         difficulty = request.POST.get("difficulty")
         difficulty = int(difficulty)
+        list_length = range(difficulty - 1)
         if difficulty is None or difficulty == "" or difficulty < 3 or difficulty > 9:
             return redirect("motus:home")
         fake = Faker()
         word = ""
         while len(word) != int(difficulty):
             word = fake.word()
-        word = WordToGuess(word_text=word)
-        word.save()
-        return render(request, "game.html", {"word_length": difficulty, "word": word})
+        word_to_guess = WordToGuess(word_text=word)
+        word_to_guess.save()
+        context = {
+            "word_length": difficulty,
+            "word": word_to_guess,
+            "first_letter": word[0],
+            "list_length": list_length,
+        }
+        return render(request, "game.html", context)
     else:
         return redirect("motus:home")
 
