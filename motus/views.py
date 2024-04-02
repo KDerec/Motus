@@ -19,16 +19,11 @@ def start_game(request):
         list_length = range(difficulty - 1)
         if difficulty is None or difficulty == "" or difficulty < 3 or difficulty > 9:
             return redirect("motus:home")
-        fake = Faker()
-        word = ""
-        while len(word) != int(difficulty):
-            word = fake.word()
-        word_to_guess = WordToGuess(word_text=word)
-        word_to_guess.save()
+        word = generate_word(difficulty)
         context = {
             "word_length": difficulty,
-            "word": word_to_guess,
-            "first_letter": word[0],
+            "word": word,
+            "first_letter": word.word_text[0],
             "list_length": list_length,
         }
         return render(request, "game.html", context)
@@ -50,6 +45,29 @@ def handle_guess(request):
         return JsonResponse({"feedback": feedback_data})
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+def generate_word(difficulty: int) -> WordToGuess:
+    """Generates a random word of the specified difficulty and saves it as a WordToGuess object.
+
+    Args:
+        difficulty (int): The desired length of the word to generate.
+
+    Returns:
+        WordToGuess: A newly created and saved WordToGuess object containing the generated word.
+
+    Raises:
+        ValueError: If the provided difficulty is more than 9.
+    """  # noqa: E501
+    if difficulty > 9:
+        raise ValueError("Difficulty must be an integer lower than or equal to 9")
+    fake = Faker()
+    word = ""
+    while len(word) != int(difficulty):
+        word = fake.word()
+    word_to_guess = WordToGuess(word_text=word)
+    word_to_guess.save()
+    return word_to_guess
 
 
 def decode_json_request_body(body_request: bytes) -> dict:
