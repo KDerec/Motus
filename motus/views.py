@@ -15,7 +15,12 @@ def home(request):
 def start_game(request):
     if request.method == "POST":
         difficulty = request.POST.get("difficulty")
-        difficulty = int(difficulty)
+        try:
+            difficulty = int(difficulty)
+        except ValueError:
+            return redirect("motus:home")
+        except TypeError:
+            return redirect("motus:home")
         list_length = range(difficulty - 1)
         if difficulty is None or difficulty == "" or difficulty < 3 or difficulty > 9:
             return redirect("motus:home")
