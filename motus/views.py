@@ -37,10 +37,10 @@ def handle_guess(request):
         data_dict = decode_json_request_body(request.body)
         guess = data_dict["guess"]
         word_id = data_dict["word_id"]
-        WordToGuess.objects.get(pk=word_id)
+        word = WordToGuess.objects.get(pk=word_id)
 
         color_list = []
-        word_in_list = list("AOSSOO")
+        word_in_list = list(word.word_text.upper())
         guess_in_list = list(guess.upper())
 
         letter_counts = count_letter_occurrences(word_in_list)
@@ -49,18 +49,20 @@ def handle_guess(request):
         if word_in_list == guess_in_list:
             color_list = ["red"] * len(word_in_list)
         else:
+            color_list = ["blue"] * len(word_in_list)
             for i, letter in enumerate(guess_in_list):
                 if letter in word_in_list:
                     if i in letters_positions[letter]:
-                        color_list.append("red")
+                        color_list[i] = "red"
+                        letter_counts[letter] -= 1
+            for i, letter in enumerate(guess_in_list):
+                if letter in word_in_list:
+                    if i in letters_positions[letter]:
+                        pass
                     else:
                         if letter_counts[letter] > 0:
-                            color_list.append("yellow")
-                        else:
-                            color_list.append("blue")
-                    letter_counts[letter] -= 1
-                else:
-                    color_list.append("blue")
+                            color_list[i] = "yellow"
+                            letter_counts[letter] -= 1
 
         return JsonResponse({"color_list": color_list})
 
