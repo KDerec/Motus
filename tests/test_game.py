@@ -1,7 +1,7 @@
 from tests.conftest import MyData
 
 
-class PageAccessTestCase(MyData):
+class StartGameTestCase(MyData):
     def setUp(self):
         """
         GIVEN: A logged-in user
@@ -19,7 +19,7 @@ class PageAccessTestCase(MyData):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "game.html")
-        self.assertEqual(response.context["word_length"], "4")
+        self.assertEqual(response.context["word_length"], 4)
 
     def test_start_game_post_no_data(self):
         """
