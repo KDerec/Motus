@@ -37,12 +37,32 @@ def handle_guess(request):
         data_dict = decode_json_request_body(request.body)
         guess = data_dict["guess"]
         word_id = data_dict["word_id"]
-        word = WordToGuess.objects.get(pk=word_id)
-        print(word)
-        print(guess)
-        feedback_data = ["red", "yellow", "blue"]
+        WordToGuess.objects.get(pk=word_id)
 
-        return JsonResponse({"feedback": feedback_data})
+        color_list = []
+        word_in_list = list("AOSSOO")
+        guess_in_list = list(guess.upper())
+
+        letter_counts = count_letter_occurrences(word_in_list)
+        letters_positions = get_letter_positions(word_in_list)
+
+        if word_in_list == guess_in_list:
+            color_list = ["red"] * len(word_in_list)
+        else:
+            for i, letter in enumerate(guess_in_list):
+                if letter in word_in_list:
+                    if i in letters_positions[letter]:
+                        color_list.append("red")
+                    else:
+                        if letter_counts[letter] > 0:
+                            color_list.append("yellow")
+                        else:
+                            color_list.append("blue")
+                    letter_counts[letter] -= 1
+                else:
+                    color_list.append("blue")
+
+        return JsonResponse({"color_list": color_list})
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
@@ -86,3 +106,42 @@ def decode_json_request_body(body_request: bytes) -> dict:
 
     data_string = body_request.decode("utf-8")
     return json.loads(data_string)
+
+
+def count_letter_occurrences(my_list):
+    """Counts the occurrences of each letter in a list.
+
+    Args:
+        my_list: A list of characters.
+
+    Returns:
+        A dictionary where keys are unique characters from the list and values are their corresponding counts.
+    """  # noqa: E501
+
+    letter_counts = {}
+    for letter in my_list:
+        if letter in letter_counts:
+            letter_counts[letter] += 1  # Increment count if letter exists
+        else:
+            letter_counts[letter] = 1  # Initialize count to 1 for new letter
+
+    return letter_counts
+
+
+def get_letter_positions(word_list):
+    """
+    Creates a dictionary mapping letters to their index positions in a list.
+
+    Args:
+        word_list: A list of characters.
+
+    Returns:
+        A dictionary where keys are unique characters from the list and values are lists containing their corresponding index positions.
+    """  # noqa: E501
+
+    letter_positions = {letter: [] for letter in set(word_list)}
+
+    for i, letter in enumerate(word_list):
+        letter_positions[letter].append(i)
+
+    return letter_positions

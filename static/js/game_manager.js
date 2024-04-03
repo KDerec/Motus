@@ -40,20 +40,20 @@ guessForm.addEventListener('submit', async (event) => {
     return;
   }
 
-  const feedbackData = await response.json();
+  const colorList = await response.json();
 
-  // Update the grid with the new attempt and feedback
-  updateGrid(guess, feedbackData);
+  // Update the grid with the new attempt and color list
+  updateGrid(guess, colorList);
 });
 
-function updateGrid(guess, feedbackData) {
+function updateGrid(guess, colorList) {
     const newRow = document.createElement('tr');
 
-    // Iterate through guess and feedback to create cells
+    // Iterate through guess and color list to create cells
     for (let i = 0; i < guess.length; i++) {
         const cell = document.createElement('td');
         cell.textContent = guess[i];
-        cell.classList.add(feedbackData["feedback"][i]);
+        cell.classList.add(colorList["color_list"][i]);
         newRow.appendChild(cell);
     }
 
