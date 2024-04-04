@@ -44,30 +44,15 @@ def handle_guess(request):
         word_id = data_dict["word_id"]
         word = WordToGuess.objects.get(pk=word_id)
 
-        color_list = []
         word_in_list = list(word.word_text.upper())
         guess_in_list = list(guess.upper())
 
         letter_counts = count_letter_occurrences(word_in_list)
         letters_positions = get_letter_positions(word_in_list)
 
-        if word_in_list == guess_in_list:
-            color_list = ["red"] * len(word_in_list)
-        else:
-            color_list = ["blue"] * len(word_in_list)
-            for i, letter in enumerate(guess_in_list):
-                if letter in word_in_list:
-                    if i in letters_positions[letter]:
-                        color_list[i] = "red"
-                        letter_counts[letter] -= 1
-            for i, letter in enumerate(guess_in_list):
-                if letter in word_in_list:
-                    if i in letters_positions[letter]:
-                        pass
-                    else:
-                        if letter_counts[letter] > 0:
-                            color_list[i] = "yellow"
-                            letter_counts[letter] -= 1
+        color_list = generate_color_list(
+            word_in_list, guess_in_list, letter_counts, letters_positions
+        )
 
         return JsonResponse({"color_list": color_list})
 
@@ -152,3 +137,40 @@ def get_letter_positions(word_list):
         letter_positions[letter].append(i)
 
     return letter_positions
+
+
+def generate_color_list(
+    word_in_list: list,
+    guess_in_list: list,
+    letter_counts: dict,
+    letters_positions: dict,
+) -> list:
+    """Generates a list of color codes based on the guess compared to the word.
+
+    Args:
+        word_in_list (list): A list of characters representing the word to be guessed (uppercase).
+        guess_in_list (list): A list of characters representing the user's guess (uppercase).
+        letter_counts (dict): A dictionary mapping letters to their occurrence counts in the word.
+        letters_positions (dict): A dictionary mapping letters to a list of their positions in the word.
+
+    Returns:
+        list: A list of color codes ("red", "yellow", or "blue") for each letter in the guess.
+    """  # noqa: E501
+    if word_in_list == guess_in_list:
+        color_list = ["red"] * len(word_in_list)
+    else:
+        color_list = ["blue"] * len(word_in_list)
+        for i, letter in enumerate(guess_in_list):
+            if letter in word_in_list:
+                if i in letters_positions[letter]:
+                    color_list[i] = "red"
+                    letter_counts[letter] -= 1
+        for i, letter in enumerate(guess_in_list):
+            if letter in word_in_list:
+                if i in letters_positions[letter]:
+                    pass
+                else:
+                    if letter_counts[letter] > 0:
+                        color_list[i] = "yellow"
+                        letter_counts[letter] -= 1
+    return color_list
