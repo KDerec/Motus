@@ -39,8 +39,18 @@ guessForm.addEventListener('submit', async (event) => {
     console.error('Error submitting guess:', response.statusText);
     return;
   }
+  const data = await response.json();
+  const colorList = data.data.color_list;
+  const win = data.data.win;
+  const run = data.data.run
 
-  const colorList = await response.json();
+  if (win === true){
+    // win
+  }
+
+  if (run === false){
+    // lose
+  }
 
   // Update the grid with the new attempt and color list
   updateGrid(guess, colorList);
@@ -53,7 +63,7 @@ function updateGrid(guess, colorList) {
     for (let i = 0; i < guess.length; i++) {
         const cell = document.createElement('td');
         cell.textContent = guess[i];
-        cell.classList.add(colorList["color_list"][i]);
+        cell.classList.add(colorList[i]);
         newRow.appendChild(cell);
     }
 

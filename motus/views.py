@@ -57,11 +57,19 @@ def handle_guess(request):
         letter_counts = count_letter_occurrences(word_in_list)
         letters_positions = get_letter_positions(word_in_list)
 
-        color_list = generate_color_list(
+        color_list, win = generate_color_list(
             word_in_list, guess_in_list, letter_counts, letters_positions
         )
+        run = True
+        if not win:
+            game = Game.objects.get(user=request.user)
+            game.life_point -= 1
+            if game.life_point <= 0:
+                run = False
 
-        return JsonResponse({"color_list": color_list})
+        return JsonResponse(
+            {"data": {"color_list": color_list, "win": win, "run": run}}
+        )
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
@@ -151,8 +159,8 @@ def generate_color_list(
     guess_in_list: list,
     letter_counts: dict,
     letters_positions: dict,
-) -> list:
-    """Generates a list of color codes based on the guess compared to the word.
+) -> tuple[list, bool]:
+    """Generates a list of color codes based on the guess compared to the word and determines if the guess represents a win.
 
     Args:
         word_in_list (list): A list of characters representing the word to be guessed (uppercase).
@@ -161,11 +169,13 @@ def generate_color_list(
         letters_positions (dict): A dictionary mapping letters to a list of their positions in the word.
 
     Returns:
-        list: A list of color codes ("red", "yellow", or "blue") for each letter in the guess.
+        tuple[list, bool]: A tuple containing a list of color codes ("red", "yellow", or "blue") for each letter in the guess and a boolean indicating if the guess is a win (all letters correctly placed).
     """  # noqa: E501
     if word_in_list == guess_in_list:
         color_list = ["red"] * len(word_in_list)
+        win = True
     else:
+        win = False
         color_list = ["blue"] * len(word_in_list)
         for i, letter in enumerate(guess_in_list):
             if letter in word_in_list:
@@ -180,7 +190,7 @@ def generate_color_list(
                     if letter_counts[letter] > 0:
                         color_list[i] = "yellow"
                         letter_counts[letter] -= 1
-    return color_list
+    return color_list, win
 
 
 def create_new_game(user):
