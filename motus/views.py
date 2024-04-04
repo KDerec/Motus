@@ -1,8 +1,9 @@
 import json
 from django.http import JsonResponse
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import WordToGuess
+from .models import WordToGuess, Game
 from faker import Faker
 
 
@@ -31,6 +32,12 @@ def start_game(request):
             "first_letter": word.word_text[0],
             "list_length": list_length,
         }
+        try:
+            create_new_game(request.user)
+        except IntegrityError:
+            Game.objects.get(user=request.user).delete()
+            create_new_game(request.user)
+
         return render(request, "game.html", context)
     else:
         return redirect("motus:home")
@@ -174,3 +181,8 @@ def generate_color_list(
                         color_list[i] = "yellow"
                         letter_counts[letter] -= 1
     return color_list
+
+
+def create_new_game(user):
+    new_game = Game(user=user)
+    new_game.save()
