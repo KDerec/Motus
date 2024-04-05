@@ -2,6 +2,7 @@ const guessForm = document.getElementById('guess-form');
 const guessInput = document.getElementById('guess-input');
 const gridContainer = document.getElementById('grid-container');
 const wordId = document.getElementById('word-id');
+const endGameMessage = document.getElementById('endgame-message');
 
 function getCookie(name) {
     let cookieValue = null;
@@ -44,12 +45,18 @@ guessForm.addEventListener('submit', async (event) => {
   const win = data.data.win;
   const run = data.data.run
 
-  if (win === true){
-    // win
-  }
+  if (win == true){
+    guessForm.remove();
+    gridContainer.remove();
+    var content = document.createTextNode("Gagné !");
+    endGameMessage.appendChild(content);
+  };
 
-  if (run === false){
-    // lose
+  if (run == false){
+    guessForm.remove();
+    gridContainer.remove();
+    var content = document.createTextNode("Perdu !");
+    endGameMessage.appendChild(content);
   }
 
   // Update the grid with the new attempt and color list
