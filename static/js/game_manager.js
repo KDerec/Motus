@@ -48,14 +48,15 @@ guessForm.addEventListener('submit', async (event) => {
   if (win == true){
     guessForm.remove();
     gridContainer.remove();
-    var content = document.createTextNode("Gagné !");
+    var content = document.createTextNode(`Bravo ! Vous avez trouvé le mot : ${guess} (+${guess.length} points) !`);
     endGameMessage.appendChild(content);
   };
 
   if (run == false){
     guessForm.remove();
     gridContainer.remove();
-    var content = document.createTextNode("Perdu !");
+    var word = data.data.word
+    var content = document.createTextNode(`Perdu ! Le mot était : ${word}`);
     endGameMessage.appendChild(content);
   }
 

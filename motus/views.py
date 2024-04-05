@@ -50,8 +50,8 @@ def handle_guess(request):
         guess = data_dict["guess"]
         word_id = data_dict["word_id"]
         word = WordToGuess.objects.get(pk=word_id)
-
-        word_in_list = list(word.word_text.upper())
+        word_upper_text = word.word_text.upper()
+        word_in_list = list(word_upper_text)
         guess_in_list = list(guess.upper())
 
         letter_counts = count_letter_occurrences(word_in_list)
@@ -71,9 +71,11 @@ def handle_guess(request):
             request.user.ranking += 1 * len(guess)
             request.user.save()
 
-        return JsonResponse(
-            {"data": {"color_list": color_list, "win": win, "run": run}}
-        )
+        response = {"data": {"color_list": color_list, "win": win, "run": run}}
+        if not run:
+            response["data"]["word"] = word_upper_text
+
+        return JsonResponse(response)
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
