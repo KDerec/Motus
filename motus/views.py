@@ -64,6 +64,7 @@ def handle_guess(request):
         if not win:
             game = Game.objects.get(user=request.user)
             game.life_point -= 1
+            game.save()
             if game.life_point <= 0:
                 run = False
         if win:
