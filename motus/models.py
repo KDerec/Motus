@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    pass
+    ranking = models.IntegerField(default=0)
 
 
 class WordToGuess(models.Model):

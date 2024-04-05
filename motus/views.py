@@ -66,6 +66,9 @@ def handle_guess(request):
             game.life_point -= 1
             if game.life_point <= 0:
                 run = False
+        if win:
+            request.user.ranking += 1 * len(guess)
+            request.user.save()
 
         return JsonResponse(
             {"data": {"color_list": color_list, "win": win, "run": run}}
