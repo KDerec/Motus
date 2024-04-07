@@ -4,7 +4,7 @@
 <br/>
 <div align="center">
   <a href="https://github.com/KDerec/Motus/blob/master/static/images/logo.png">
-    <img src="static/images/logo.png" alt="Logo" width="445" height="100">
+    <img src="static/images/logo.png" alt="Logo" width="100">
   </a>
 
 <h3 align="center">Motus Simulation</h3>
@@ -17,7 +17,7 @@
   </a>
   </p>
   <p align="center">
-    Simulation du jeu Motus.
+    Mettez vos capacités à l'épreuve en relevant le défi de deviner des mots cachés dans cette simulation du célèbre jeu Motus !
   </p>
   </p>
 </div>
@@ -39,9 +39,14 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+Exercice pratique pour démontrer mes compétences en Django, JS, HTML et CSS pour un test.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
+Après avoir suivi le guide d'installation, vous pouvez :
+1. Partir de zéro et créer un compte admin avec la commande `python manage.py createsuperuser`,
+2. Ajouter les trois utilisateurs ci-dessous en utilisant la commande `python manage.py loaddata sample` *(nom utilisateur : mot de passe)* :
+   * JohnDoe : eT00cCMwdimeibv
+   * JeanMichel : kYrK507nM5Oxqwa
+   * admin : Kc1M3TPajtEmaLJ
 
 ### Built With
 * [Python 3.12](https://www.python.org/)
@@ -83,8 +88,14 @@
    ```sh
    pip install -r requirements.txt
    ```
-7. *IN PROGRESS*
+7. Create an admin account with `python manage.py createsuperuser` or load data with `python manage.py loaddata sample` (<a href="#about-the-project">see about project for more info</a>);
+8. Enjoy !
 
+
+
+JohnDoe : eT00cCMwdimeibv
+JeanMichel : kYrK507nM5Oxqwa
+admin : Kc1M3TPajtEmaLJ
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -112,7 +123,14 @@
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
+L'application nécessite un compte utilisateur pour pouvoir jouer.
+### Créer des nouveaux utilisateurs
+Rendez-vous à l'adresse `/signup` et suivre les indications ou rendez-vous à l'adresse `/admin/motus/user/add/` connecté en tant qu'administrateur pour créer un compte utilisateur.
+### Règle du jeu
+Le jeu repose sur la recherche de mots d'un nombre fixé de lettres.
+Le mot apparaît alors sur une grille : les lettres présentes et bien placées sont coloriées en rouge, les lettres présentes mais mal placées sont coloriés en jaune. Pour une lettre, on ne peut avoir au maximum que le nombre d'occurrences de cette lettre dans le mot de coloriées (soit en jaune, soit en rouge si certaines sont bien placées).
+Si le joueur trouve le mot, il gagne des points équivalent au nombre de lettres du mot trouvé.
+Les mots à deviner sont en anglais et la longueur des mots va de 3 à 8 lettres.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -125,8 +143,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 ## Contact
-Kévin Dérécusson ↓
-Email : kevin.derecusson@outlook.fr
+Kévin Dérécusson ->
+Email : kevin.derecusson@outlook.fr ou
 LinkedIn : https://www.linkedin.com/in/kevin-derecusson/
 
 <p align="right">(<a href="#top">back to top</a>)</p>
