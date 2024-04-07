@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from .models import WordToGuess, Game
+from .models import WordToGuess, Game, User
 from faker import Faker
 
 
@@ -96,6 +96,12 @@ def win(request, word):
 @login_required
 def lose(request, word):
     return render(request, "lose.html", {"word": word})
+
+
+@login_required
+def scoreboard(request):
+    users = User.objects.order_by("-ranking")
+    return render(request, "scoreboard.html", {"users": users})
 
 
 def generate_word(difficulty: int) -> WordToGuess:
