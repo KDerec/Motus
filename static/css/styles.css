@@ -33,6 +33,13 @@ main {
     gap: 1rem;
 }
 
+input {
+    background-color: transparent;
+    border-width: 1px;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
 #header {
     display: flex;
     align-items: center;
@@ -56,6 +63,12 @@ main {
     flex-direction: column;
 }
 
+#difficulty-select {
+    background: var(--color2);
+    font-size: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+}
 
 .buttons {
     font-size: 1rem;
