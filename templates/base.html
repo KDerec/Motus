@@ -21,11 +21,14 @@
             <img src="{% static 'images/logo.png' %}" alt="logo" width="80">
         </a>
         {% if user.is_authenticated %}
-        <p>{{ user }} : {{ user.ranking }} points</p>
-        <a href="/scoreboard" class="buttons">Scoreboard</a>
+        <a href="/scoreboard" class="second-buttons">Scoreboard</a>
+        <a href="{% url 'password_change' %}" class="second-buttons">Changer mot de passe</a>
+        {% if user.is_superuser %}
+        <a href="{% url 'admin:index' %}" class="second-buttons">Page administration</a>
+        {% endif %}
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
-            <input type="submit" class="buttons" value="Se déconnecter">
+            <input type="submit" class="second-buttons" value="Se déconnecter">
         </form>
         {% endif %}
     </header>

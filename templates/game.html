@@ -5,7 +5,7 @@
     {% csrf_token %}
     <input onkeydown="return /[a-z]/i.test(event.key)" type="text" name="guess" id="guess-input" maxlength="{{ word_length }}" minlength="{{ word_length }}" required>
     <input type="hidden" name="word-id" id="word-id" value="{{ word.pk }}">
-    <button type="submit">Envoyer</button>
+    <button type="submit" class="buttons">Envoyer</button>
 </form>
 <table id="grid-container">
     <tr>

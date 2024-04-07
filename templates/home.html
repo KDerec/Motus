@@ -1,24 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Bienvenue !</h1>
-    <section>
-        <a href="{% url 'password_change' %}" class="buttons">Changer mot de passe</a>
-        {% if user.is_superuser %}
-            <a href="{% url 'admin:index' %}" class="buttons">Page administration</a>
-        {% endif %}
-        <label for="difficulty-select">Difficulté:</label>
-        <select name="difficulty" id="difficulty-select" form="start-game-form">
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-        </select>
-        <form action="{% url 'motus:start_game' %}" method="post" id="start-game-form">
-            {% csrf_token %}
-            <input type="submit" name="start" value="Démarrer une nouvelle partie">
-        </form>
-    </section>
+<h1>Bienvenue {{ user }} 👋, vous avez {{ user.ranking }} points !</h1>
+<div id="start-game">
+    <form action="{% url 'motus:start_game' %}" method="post" id="start-game-form">
+        {% csrf_token %}
+        <input type="submit" name="start" class="buttons" value="Démarrer une nouvelle partie">
+    </form>
+    <label for="difficulty-select"><b>Difficulté:</b></label>
+    <select name="difficulty" id="difficulty-select" form="start-game-form">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+    </select>
+</div>
 {% endblock %}
