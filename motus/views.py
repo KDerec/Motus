@@ -2,6 +2,7 @@ import json
 from django.http import JsonResponse
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from .models import WordToGuess, Game
 from faker import Faker
@@ -61,15 +62,20 @@ def handle_guess(request):
             word_in_list, guess_in_list, letter_counts, letters_positions
         )
         run = True
-        if not win:
+        try:
             game = Game.objects.get(user=request.user)
+        except ObjectDoesNotExist:
+            return JsonResponse({"game_is_over": True})
+        if not win:
             game.life_point -= 1
             game.save()
             if game.life_point <= 0:
                 run = False
+                game.delete()
         if win:
             request.user.ranking += 1 * len(guess)
             request.user.save()
+            game.delete()
 
         response = {"data": {"color_list": color_list, "win": win, "run": run}}
         if not run:

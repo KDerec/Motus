@@ -41,6 +41,9 @@ guessForm.addEventListener('submit', async (event) => {
     return;
   }
   const data = await response.json();
+  if (data.game_is_over) {
+    document.location.href = `/`;
+  }
   const colorList = data.data.color_list;
   const win = data.data.win;
   const run = data.data.run
