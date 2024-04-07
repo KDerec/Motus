@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<p><i>Attention : le mot à trouver est en <b>anglais</b></i></p>
 <form id="guess-form">
     {% csrf_token %}
     <input onkeydown="return /[a-z]/i.test(event.key)" type="text" name="guess" id="guess-input" maxlength="{{ word_length }}" minlength="{{ word_length }}" required>
