@@ -1,20 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Bienvenue {{ user }} 👋, vous avez {{ user.ranking }} points !</h1>
-<div id="start-game">
-    <form action="{% url 'motus:start_game' %}" method="post" id="start-game-form">
-        {% csrf_token %}
-        <input type="submit" name="start" class="buttons" value="Démarrer une nouvelle partie">
-    </form>
-    <label for="difficulty-select"><b>Difficulté:</b></label>
-    <select name="difficulty" id="difficulty-select" form="start-game-form">
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-    </select>
-</div>
+<h1>Bienvenue {{ user }} 👋, vous avez {{ user.ranking }} points.</h1>
+<label for="difficulty-select"><b>Difficulté:</b></label>
+<select name="difficulty" id="difficulty-select" form="start-game-form">
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+</select>
+<form action="{% url 'motus:start_game' %}" method="post" id="start-game-form">
+    {% csrf_token %}
+    <input type="submit" name="start" class="buttons" value="Démarrer une nouvelle partie">
+</form>
+<a href="{% url 'password_change' %}" class="second-buttons">Changer mot de passe</a>
+{% if user.is_superuser %}
+<a href="{% url 'admin:index' %}" class="second-buttons">Page administration</a>
+{% endif %}
+<h2>Scoreboard</h2>
+<table class="scoreboard">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Ranking</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.ranking }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

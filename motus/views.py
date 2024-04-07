@@ -10,7 +10,8 @@ from faker import Faker
 
 @login_required
 def home(request):
-    return render(request, "home.html")
+    users = User.objects.order_by("-ranking")
+    return render(request, "home.html", {"users": users})
 
 
 @login_required
