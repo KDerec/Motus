@@ -49,6 +49,14 @@ main {
     gap: 1rem;
 }
 
+#login-form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+
 .buttons {
     font-size: 1rem;
     color: var(--color4);
