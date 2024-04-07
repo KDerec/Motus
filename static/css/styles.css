@@ -70,6 +70,19 @@ input {
     text-align: center;
 }
 
+#grid-container {
+    font-size: 2rem;
+    tr {
+        display: flex;
+        align-items: center;
+    }
+
+    td {
+        width: 40px;
+        text-align: center;
+    }
+}
+
 .buttons {
     font-size: 1rem;
     color: var(--color4);
