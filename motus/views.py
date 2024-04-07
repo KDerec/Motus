@@ -80,6 +80,16 @@ def handle_guess(request):
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
+@login_required
+def win(request, word):
+    return render(request, "win.html", {"word": word})
+
+
+@login_required
+def lose(request, word):
+    return render(request, "lose.html", {"word": word})
+
+
 def generate_word(difficulty: int) -> WordToGuess:
     """Generates a random word of the specified difficulty and saves it as a WordToGuess object.
 
