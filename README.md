@@ -3,8 +3,8 @@
 <!-- PROJECT LOGO -->
 <br/>
 <div align="center">
-  <a href="https://github.com/KDerec/Motus/blob/master/static/images/logo.jpg">
-    <img src="static/images/logo.jpg" alt="Logo" width="445" height="100">
+  <a href="https://github.com/KDerec/Motus/blob/master/static/images/logo.png">
+    <img src="static/images/logo.png" alt="Logo" width="445" height="100">
   </a>
 
 <h3 align="center">Motus Simulation</h3>
