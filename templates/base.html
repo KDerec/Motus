@@ -19,7 +19,7 @@
             <h1>Motus</h1>
         </a>
         {% if user.is_authenticated %}
-        <p>Bienvenue {{ user }}</p>
+        <p>Bienvenue {{ user }}, vous avez {{ user.ranking }} points.</p>
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <input type="submit" class="buttons" value="Se déconnecter">
