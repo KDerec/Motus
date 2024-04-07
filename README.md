@@ -40,6 +40,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 Exercice pratique pour démontrer mes compétences en Django, JS, HTML et CSS pour un test.
+Le projet n'est pas prévu pour une déploiement en production.
 
 Après avoir suivi le guide d'installation, vous pouvez :
 1. Partir de zéro et créer un compte admin avec la commande `python manage.py createsuperuser`,
@@ -57,6 +58,10 @@ Après avoir suivi le guide d'installation, vous pouvez :
 
 <!-- INSTALLATION -->
 ## Installation
+0. *(shortcut) Pour exécuter les étapes 2 à 9 en une commande (testé sur macOs) :*
+      ```sh
+      git clone https://github.com/KDerec/Motus.git && cd Motus && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py loaddata sample && python manage.py runserver
+      ```
 1. <a href="#python-installation">Install Python</a> ;
 2. Clone the project in desired directory ;
    ```sh
@@ -88,14 +93,19 @@ Après avoir suivi le guide d'installation, vous pouvez :
    ```sh
    pip install -r requirements.txt
    ```
-7. Create an admin account with `python manage.py createsuperuser` or load data with `python manage.py loaddata sample` (<a href="#about-the-project">see about project for more info</a>);
-8. Enjoy !
-
-
-
-JohnDoe : eT00cCMwdimeibv
-JeanMichel : kYrK507nM5Oxqwa
-admin : Kc1M3TPajtEmaLJ
+7. Apply migration ;
+   ```sh
+   python manage.py migrate
+   ```
+8. (optional) Load data in database (<a href="#about-the-project">see about project for more details</a>);
+   ```sh
+   python manage.py loaddata sample
+   ```
+9. Run your local server ;
+   ```sh
+   python manage.py runserver
+   ```
+10. Go to http://127.0.0.1:8000/, create an account and enjoy !
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
