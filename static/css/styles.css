@@ -83,6 +83,23 @@ input {
     }
 }
 
+.scoreboard {
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    min-width: 25%;
+    thead tr {
+        background-color: var(--color2);
+        color: var(--color4);
+        text-align: left;
+    }
+    th, td {
+        padding: 0.5rem;
+    }
+    tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+}
+
 .buttons {
     font-size: 1rem;
     color: var(--color4);
