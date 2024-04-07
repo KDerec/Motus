@@ -50,7 +50,11 @@ def handle_guess(request):
         data_dict = decode_json_request_body(request.body)
         guess = data_dict["guess"]
         word_id = data_dict["word_id"]
-        word = WordToGuess.objects.get(pk=word_id)
+        try:
+            word = WordToGuess.objects.get(pk=word_id)
+            game = Game.objects.get(user=request.user)
+        except ObjectDoesNotExist:
+            return JsonResponse({"game_is_over": True})
         word_upper_text = word.word_text.upper()
         word_in_list = list(word_upper_text)
         guess_in_list = list(guess.upper())
@@ -62,19 +66,17 @@ def handle_guess(request):
             word_in_list, guess_in_list, letter_counts, letters_positions
         )
         run = True
-        try:
-            game = Game.objects.get(user=request.user)
-        except ObjectDoesNotExist:
-            return JsonResponse({"game_is_over": True})
         if not win:
             game.life_point -= 1
             game.save()
             if game.life_point <= 0:
                 run = False
+                word.delete()
                 game.delete()
         if win:
             request.user.ranking += 1 * len(guess)
             request.user.save()
+            word.delete()
             game.delete()
 
         response = {"data": {"color_list": color_list, "win": win, "run": run}}
