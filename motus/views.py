@@ -1,11 +1,20 @@
 import json
 from django.http import JsonResponse
 from django.db import IntegrityError
+from django.urls import reverse_lazy
+from django.views import generic
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from .models import WordToGuess, Game, User
+from .forms import CustomUserCreationForm
 from faker import Faker
+
+
+class SignUpView(generic.CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
 
 
 @login_required
